@@ -1,12 +1,8 @@
-(ns atmos-entities.core)
+(ns atmos-entities.core
+  (:require [atmos-kernel.core :refer [defatmos-record-protocol]]))
 
 (defrecord Entity [id type name last-name])
 
-(defprotocol EntityRepository
-  (add-entity [entity])
-  (update-entity [entity])
-  (remove-entity [entity])
-  (get-entity [id]))
+(defatmos-record-protocol Entity :Repository)
 
 
-(defprotocol EntityApi)

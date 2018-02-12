@@ -10,6 +10,6 @@ pom.xml.asc
 .hgignore
 .hg/
 
-\.idea/
+/.idea/
 
-entities\.iml
+*.iml
