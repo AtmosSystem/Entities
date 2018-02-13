@@ -1,9 +1,4 @@
 (ns atmos-entities.core
-  (:require [atmos-kernel.core :refer [defatmos-record-protocol]]))
+  (:require [atmos-kernel.core :refer [defatmos-record-protocols]]))
 
-(defrecord Entity [id type name lastName])
-
-(defatmos-record-protocol Entity :Repository)
-
-
-
+(defatmos-record-protocols :Entity :Repository)

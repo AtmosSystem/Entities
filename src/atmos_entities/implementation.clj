@@ -2,17 +2,29 @@
   (:require [korma.db :as sql]
             [korma.core :refer :all]
             [atmos-entities.core :refer :all])
-  (:import (atmos_entities.core Entity)))
+  (:import (clojure.lang PersistentArrayMap)))
 
+;------------------------------
+; BEGIN General functions
+;------------------------------
 
-(declare database-instance)
+(defn defpersistence [db-map] (sql/mysql db-map))
+
+(defn init-persistence [db-definition] (sql/defdb atmos-entities db-definition))
+
+;------------------------------
+; END - General functions
+;------------------------------
+
+;------------------------------
+; BEGIN Entity functions
+;------------------------------
 
 (defentity ^:private entities
-           ;(database database-instance)
            (table :entities)
 
            (pk :id)
-           (entity-fields :type :name :lastName))
+           (entity-fields :id :type :name :lastName))
 
 (defn- add-entity*
   [entity]
@@ -20,13 +32,27 @@
     (insert entities (values entity))
     true))
 
+(defn- get-entities*
+  [where-filter]
+  (select entities
+          (where where-filter)))
 
-(defn db-definition [db-map] (sql/mysql db-map))
-(defn init-persistance [db] (sql/defdb atmos-entities db))
+(defn- remove-entities*
+  [where-filter]
+  (delete entities
+          (where where-filter)))
 
-(extend-type Entity
-  IEntityRepository
+(extend-type PersistentArrayMap
+  IEntityBasicRepository
   (add-entity [entity] (add-entity* entity))
   (update-entity [entity] false)
-  (remove-entity [entity] false)
-  (get-entity [entity] false))
+  (remove-entity [entity] false))
+
+(extend-type Long
+  IEntityIdentityRepository
+  (get-entity [id] (first (get-entities* {:id id})))
+  (remove-entity [id] (remove-entities* {:id id})))
+
+;------------------------------
+; END - Entity functions
+;------------------------------
