@@ -5,16 +5,15 @@
 
 (def mock-db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
                           :db       "atmos-entities"
-                          :user     "developer"
-                          :password "12345678"}
+                          :user     ""
+                          :password ""}
 
               :localhost {:host     "localhost"
                           :db       "atmos-entities"
                           :user     "root"
                           :password ""}})
 
-(-> mock-db :aws defpersistence init-persistence)
-
+(-> mock-db :localhost defpersistence init-persistence)
 
 (deftest repository-testing
   (let [mock-entity {:type     "MOCK-USER"

@@ -88,7 +88,10 @@
   (remove-entity [id] (remove-entities* id))
   Long
   (get-entity [id] (get-entities* id))
-  (remove-entity [id] (remove-entities* id)))
+  (remove-entity [id] (remove-entities* id))
+  String
+  (get-entity [id] (get-entities* (Long. id)))
+  (remove-entity [id] (remove-entities* (Long. id))))
 
 ;------------------------------
 ; END - Entity functions
