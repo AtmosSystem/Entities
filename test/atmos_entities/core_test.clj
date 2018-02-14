@@ -25,9 +25,11 @@
         id-inserted (add-entity mock-entity)
         id-to-remove id-inserted]
     (testing "Insert data"
-      (is (integer? id-inserted)))
-    (testing "Retrieve data"
+      (is (number? id-inserted)))
+    (testing "Retrieve single data"
       (is (= test-id (-> test-id get-entity :id))))
+    (testing "Retrieve multiple data"
+      (is (= 2 (count (-> [6 13] get-entities)))))
     (testing "Update data"
       (is (true? (update-entity mock-update-entity))))
     (testing "Remove data"

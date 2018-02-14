@@ -2,7 +2,7 @@
   (:require [korma.db :as sql]
             [korma.core :refer :all]
             [atmos-entities.core :refer :all])
-  (:import (clojure.lang PersistentArrayMap)))
+  (:import (clojure.lang PersistentArrayMap PersistentVector)))
 
 ;------------------------------
 ; BEGIN General functions
@@ -37,10 +37,15 @@
           (set-fields entity)
           (where {:id (:id entity)})))
 
-(defn- get-persist-entities*
+(defn- get-persist-entity*
   [where-filter]
   (select entities
           (where where-filter)))
+
+(defn- get-persist-entities*
+  [ids]
+  (select entities
+          (where {:id [in ids]})))
 
 (defn- remove-persist-entities*
   [where-filter]
@@ -63,8 +68,10 @@
     false))
 
 (defn- get-entities*
-  [id]
-  (first (get-persist-entities* {:id id})))
+  [data]
+  (cond
+    (number? data) (first (get-persist-entity* {:id data}))
+    (seq? data) (get-persist-entities* data)))
 
 (defn- remove-entities*
   [id]
@@ -92,6 +99,12 @@
   String
   (get-entity [id] (get-entities* (Long. id)))
   (remove-entity [id] (remove-entities* (Long. id))))
+
+(extend-protocol IEntitySeqRepository
+  PersistentArrayMap
+  (get-entities [range] (get-entities* range))
+  PersistentVector
+  (get-entities [ids] (get-entities* ids)))
 
 ;------------------------------
 ; END - Entity functions
