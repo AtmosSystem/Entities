@@ -26,32 +26,69 @@
            (pk :id)
            (entity-fields :id :type :name :lastName))
 
-(defn- add-entity*
+(defn- add-persist-entity*
   [entity]
-  (do
-    (insert entities (values entity))
-    true))
+  (insert entities
+          (values entity)))
 
-(defn- get-entities*
+(defn- update-persist-entity*
+  [entity]
+  (update entities
+          (set-fields entity)
+          (where {:id (:id entity)})))
+
+(defn- get-persist-entities*
   [where-filter]
   (select entities
           (where where-filter)))
 
-(defn- remove-entities*
+(defn- remove-persist-entities*
   [where-filter]
   (delete entities
           (where where-filter)))
 
+
+(defn- add-entity*
+  [entity]
+  (if-let [key-inserted (add-persist-entity* entity)]
+    (:generated_key key-inserted)
+    false))
+
+(defn- update-entity*
+  [entity]
+  (if-let [exists (get-entity (:id entity))]
+    (do
+      (update-persist-entity* entity)
+      true)
+    false))
+
+(defn- get-entities*
+  [id]
+  (first (get-persist-entities* {:id id})))
+
+(defn- remove-entities*
+  [id]
+  (let [where-filter {:id id}]
+    (if-let [entity (get-entity id)]
+      (do
+        (remove-persist-entities* where-filter)
+        true)
+      false)))
+
+
+
 (extend-type PersistentArrayMap
   IEntityBasicRepository
   (add-entity [entity] (add-entity* entity))
-  (update-entity [entity] false)
-  (remove-entity [entity] false))
+  (update-entity [entity] (update-entity* entity)))
 
-(extend-type Long
-  IEntityIdentityRepository
-  (get-entity [id] (first (get-entities* {:id id})))
-  (remove-entity [id] (remove-entities* {:id id})))
+(extend-protocol IEntityIdentityRepository
+  BigInteger
+  (get-entity [id] (get-entities* id))
+  (remove-entity [id] (remove-entities* id))
+  Long
+  (get-entity [id] (get-entities* id))
+  (remove-entity [id] (remove-entities* id)))
 
 ;------------------------------
 ; END - Entity functions
