@@ -30,6 +30,9 @@
   (remove-entities [ids] (remove-entities* ids)))
 
 (extend-protocol IEntityIdentityRepository
+  Integer
+  (get-entity [id] (get-entities* id))
+  (remove-entity [id] (remove-entities* id))
   BigInteger
   (get-entity [id] (get-entities* id))
   (remove-entity [id] (remove-entities* id))

@@ -6,7 +6,8 @@
                                        make-json-app
                                        ms-atmos-response
                                        ms-atmos-main-method-response
-                                       request-body]]
+                                       request-body
+                                       keyword-map]]
             [atmos-entities.core :refer :all]
             [clojure.string :refer [includes? split]]))
 
@@ -39,24 +40,24 @@
 
 (defn- add-entities*
   [data]
-  (let [entities (:entities data)]
+  (let [entities (keyword-map (:entities data))]
     (ms-atmos-response
       (cond
-        (map? entities) (add-entity entities)))))
+        (map? entities) (str (add-entity entities))))))
 
 (defn- remove-entities*
   [data]
   (ms-atmos-response
     (cond
       (map? data) (remove-entities (:ids data))             ;TODO: Implement the remove-entities
-      (string? data) (remove-entity (Long. data)))))
+      (string? data) (str (remove-entity (Long. data))))))
 
 (defn- update-entities*
   [data]
-  (let [entities (:entities data)]
+  (let [entities (keyword-map (:entities data))]
     (ms-atmos-response
       (cond
-        (map? entities) (update-entity entities)))))
+        (map? entities) (str (update-entity entities))))))
 
 (defroutes app-routes
            (ms-atmos-main-method-response :Entity)
