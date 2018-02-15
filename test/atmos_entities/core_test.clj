@@ -2,10 +2,10 @@
   (:require [clojure.test :refer :all]
             [atmos-entities.core :refer :all]))
 
-(def mock-db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
-                          :db       "atmos-entities"
-                          :user     "developer"
-                          :password "12345678"}})
+(def mock-db {:aws {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
+                    :db       "atmos-entities"
+                    :user     "developer"
+                    :password "12345678"}})
 
 (-> mock-db :aws defpersistence init-persistence)
 

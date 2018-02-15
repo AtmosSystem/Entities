@@ -6,8 +6,8 @@
   (insert entities
           (values entity)))
 
-(defn- add-entity*
-  [entity]
-  (if-let [key-inserted (add-persist-entity* entity)]
+(defn- add-entities*
+  [entities]
+  (if-let [key-inserted (add-persist-entity* entities)]
     (:generated_key key-inserted)
     false))

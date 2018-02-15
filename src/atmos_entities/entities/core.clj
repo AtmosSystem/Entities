@@ -21,12 +21,13 @@
 
 (extend-type PersistentArrayMap
   IEntityBasicRepository
-  (add-entity [entity] (add-entity* entity))
+  (add-entity [entity] (add-entities* entity))
   (update-entity [entity] (update-entity* entity)))
 
 (extend-type PersistentVector
   IEntitySeqRepository
-  (get-entities [ids] (get-entities* ids)))
+  (get-entities [ids] (get-entities* ids))
+  (remove-entities [ids] (remove-entities* ids)))
 
 (extend-protocol IEntityIdentityRepository
   BigInteger
