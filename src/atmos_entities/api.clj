@@ -17,12 +17,7 @@
 (def db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
                      :db       "atmos-entities"
                      :user     "developer"
-                     :password "12345678"}
-
-         :localhost {:host     "localhost"
-                     :db       "atmos-entities"
-                     :user     "root"
-                     :password ""}})
+                     :password "12345678"}})
 
 (-> db :aws defpersistence init-persistence)
 

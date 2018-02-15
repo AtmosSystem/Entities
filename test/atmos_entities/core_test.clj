@@ -5,12 +5,7 @@
 (def mock-db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
                           :db       "atmos-entities"
                           :user     "developer"
-                          :password "12345678"}
-
-              :localhost {:host     "localhost"
-                          :db       "atmos-entities"
-                          :user     "root"
-                          :password ""}})
+                          :password "12345678"}})
 
 (-> mock-db :aws defpersistence init-persistence)
 
@@ -28,7 +23,7 @@
     (testing "Retrieve single data"
       (is (= test-id (-> test-id get-entity :id))))
     (testing "Retrieve multiple data"
-      (is (= 2 (count (-> [6 13] get-entities)))))
+      (is (= 2 (count (get-entities [6 13])))))
     (testing "Update data"
       (is (true? (update-entity mock-update-entity))))
     (testing "Remove data"
