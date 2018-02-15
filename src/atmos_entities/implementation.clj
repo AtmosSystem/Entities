@@ -82,7 +82,18 @@
         true)
       false)))
 
+;------------------------------
+; BEGIN Entity public functions
+;------------------------------
 
+(defn get-all-entities
+  []
+  (-> get-persist-entity-base*
+      select))
+
+;------------------------------
+; END Entity public functions
+;------------------------------
 
 (extend-type PersistentArrayMap
   IEntityBasicRepository

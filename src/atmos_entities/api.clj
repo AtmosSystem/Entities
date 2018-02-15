@@ -6,8 +6,7 @@
                                        make-json-app
                                        ms-atmos-response
                                        ms-atmos-main-method-response]]
-            [atmos-entities.core :refer :all]
-            [atmos-entities.implementation :refer [init-persistence defpersistence]]))
+            [atmos-entities.core :refer :all]))
 
 
 
@@ -17,15 +16,15 @@
 
 (def db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
                      :db       "atmos-entities"
-                     :user     ""
-                     :password ""}
+                     :user     "developer"
+                     :password "12345678"}
 
          :localhost {:host     "localhost"
                      :db       "atmos-entities"
                      :user     "root"
                      :password ""}})
 
-(-> db :localhost defpersistence init-persistence)
+(-> db :aws defpersistence init-persistence)
 
 ;-------------------------------------------------------
 ; END VARS
@@ -33,7 +32,11 @@
 
 (defn- get-entities*
   [data]
-  (ms-atmos-response (get-entity data)))
+  (ms-atmos-response
+    (cond
+      (nil? data) (get-all-entities)
+      (contains?)
+      (get-entity data))))
 
 
 (defroutes app-routes
@@ -42,7 +45,7 @@
            (GET
              (ms-atmos-method :entities)
              []
-             not-implemented-fn)
+             (get-entities* nil))
 
            (GET
              (ms-atmos-method :entities :id)
