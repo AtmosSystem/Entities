@@ -1,5 +1,5 @@
 (ns atmos-entities.api
-  (:require [compojure.core :refer :all]
+  (:require [compojure.core :refer [GET POST PUT DELETE defroutes]]
             [atmos-kernel.core :refer [not-found-route
                                        not-implemented-fn
                                        ms-atmos-method
@@ -7,7 +7,8 @@
                                        ms-atmos-response
                                        ms-atmos-main-method-response
                                        request-body
-                                       keyword-map]]
+                                       keyword-map
+                                       read-resource-edn]]
             [atmos-entities.core :refer :all]
             [clojure.string :refer [includes? split]]
             [clojure.edn :refer [read-string]]))
@@ -17,7 +18,7 @@
 ;-------------------------------------------------------
 ; BEGIN VARS
 ;-------------------------------------------------------
-(def configuration (read-string (slurp "resources/config.edn")))
+(def configuration (read-resource-edn :config))
 
 (-> configuration :database defpersistence init-persistence)
 
@@ -46,7 +47,7 @@
   [data]
   (ms-atmos-response
     (cond
-      (map? data) (remove-entities (:ids data))             ;TODO: Implement the remove-entities
+      (map? data) (remove-entities (:ids data))
       (string? data) (str (remove-entity (Long. data))))))
 
 (defn- update-entities*
