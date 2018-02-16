@@ -1,6 +1,7 @@
 (ns atmos-entities.core-test
   (:require [clojure.test :refer :all]
-            [atmos-entities.core :refer :all]))
+            [atmos-entities.core :refer :all]
+            [clojure.edn :refer [read-string]]))
 
 (def mock-db {:aws {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
                     :db       "atmos-entities"

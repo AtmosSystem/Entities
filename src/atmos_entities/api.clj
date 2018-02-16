@@ -9,20 +9,17 @@
                                        request-body
                                        keyword-map]]
             [atmos-entities.core :refer :all]
-            [clojure.string :refer [includes? split]]))
+            [clojure.string :refer [includes? split]]
+            [clojure.edn :refer [read-string]]))
 
 
 
 ;-------------------------------------------------------
 ; BEGIN VARS
 ;-------------------------------------------------------
+(def configuration (read-string (slurp "resources/config.edn")))
 
-(def db {:aws {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
-               :db       "atmos-entities"
-               :user     "developer"
-               :password "12345678"}})
-
-(-> db :aws defpersistence init-persistence)
+(-> configuration :database defpersistence init-persistence)
 
 ;-------------------------------------------------------
 ; END VARS
