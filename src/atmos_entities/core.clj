@@ -7,7 +7,8 @@
 (defatmos-record-protocols :Entity :Repository)
 
 (defprotocol IEntitySeqRepository
-  (get-entities [data]))
+  (get-entities [data])
+  (remove-entities [data]))
 
 
 (load "implementation")

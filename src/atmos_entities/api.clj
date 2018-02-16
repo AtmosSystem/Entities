@@ -5,8 +5,11 @@
                                        ms-atmos-method
                                        make-json-app
                                        ms-atmos-response
-                                       ms-atmos-main-method-response]]
-            [atmos-entities.core :refer :all]))
+                                       ms-atmos-main-method-response
+                                       request-body
+                                       keyword-map]]
+            [atmos-entities.core :refer :all]
+            [clojure.string :refer [includes? split]]))
 
 
 
@@ -14,10 +17,10 @@
 ; BEGIN VARS
 ;-------------------------------------------------------
 
-(def db {:aws       {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
-                     :db       "atmos-entities"
-                     :user     "developer"
-                     :password "12345678"}})
+(def db {:aws {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
+               :db       "atmos-entities"
+               :user     "developer"
+               :password "12345678"}})
 
 (-> db :aws defpersistence init-persistence)
 
@@ -26,21 +29,43 @@
 ;-------------------------------------------------------
 
 (defn- get-entities*
+  ([data]
+   (ms-atmos-response
+     (cond
+       (nil? data) (get-all-entities)
+       (map? data) (get-entities (:ids data))
+       (string? data) (get-entity (Long. data)))))
+  ([]
+   (get-entities* nil)))
+
+(defn- add-entities*
+  [data]
+  (let [entities (keyword-map (:entities data))]
+    (ms-atmos-response
+      (cond
+        (map? entities) (str (add-entity entities))))))
+
+(defn- remove-entities*
   [data]
   (ms-atmos-response
     (cond
-      (nil? data) (get-all-entities)
-      (contains?)
-      (get-entity data))))
+      (map? data) (remove-entities (:ids data))             ;TODO: Implement the remove-entities
+      (string? data) (str (remove-entity (Long. data))))))
 
+(defn- update-entities*
+  [data]
+  (let [entities (keyword-map (:entities data))]
+    (ms-atmos-response
+      (cond
+        (map? entities) (str (update-entity entities))))))
 
 (defroutes app-routes
            (ms-atmos-main-method-response :Entity)
 
            (GET
              (ms-atmos-method :entities)
-             []
-             (get-entities* nil))
+             request
+             (get-entities*))
 
            (GET
              (ms-atmos-method :entities :id)
@@ -48,19 +73,25 @@
              (get-entities* id))
 
            (POST
-             (ms-atmos-method :entities :id)
-             [id]
-             not-implemented-fn)
+             (ms-atmos-method :entities)
+             request
+             (let [body (request-body request)
+                   method (:method body)
+                   method (keyword method)]
+               (cond
+                 (= method :get) (get-entities* body)
+                 (= method :delete) (remove-entities* body)
+                 (= method :update) (update-entities* body))))
 
            (PUT
              (ms-atmos-method :entities)
-             []
-             not-implemented-fn)
+             request
+             (add-entities* (request-body request)))
 
            (DELETE
              (ms-atmos-method :entities :id)
              [id]
-             not-implemented-fn)
+             (remove-entities* id))
 
            not-found-route)
 
