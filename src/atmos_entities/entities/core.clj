@@ -10,8 +10,8 @@
 ;------------------------------
 ; BEGIN Entity functions
 ;------------------------------
-(load "entities/entities_add")
 (load "entities/entities_get")
+(load "entities/entities_add")
 (load "entities/entities_update")
 (load "entities/entities_remove")
 ;------------------------------

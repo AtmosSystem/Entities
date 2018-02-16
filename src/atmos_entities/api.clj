@@ -76,8 +76,7 @@
              (ms-atmos-method :entities)
              request
              (let [body (request-body request)
-                   method (:method body)
-                   method (keyword method)]
+                   method (-> body :method keyword)]
                (cond
                  (= method :get) (get-entities* body)
                  (= method :delete) (remove-entities* body)

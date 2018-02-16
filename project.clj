@@ -7,7 +7,12 @@
                  [atmos-kernel "0.1.0-SNAPSHOT"]
                  ;persistence-deps
                  [korma "0.4.0"]
-                 [mysql/mysql-connector-java "6.0.6"]]
+                 [mysql/mysql-connector-java "6.0.6"]
+                 ;logs-deps
+                 [log4j "1.2.15" :exclusions [javax.mail/mail
+                                              javax.jms/jms
+                                              com.sun.jdmk/jmxtools
+                                              com.sun.jmx/jmxri]]]
   :plugins [[lein-ring "0.12.3"]]
   :ring {:handler atmos-entities.api/app}
   :profiles {

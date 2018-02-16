@@ -4,9 +4,9 @@
 (def ^:private get-persist-entity-base* (-> (select* entities)))
 
 (defn- get-persist-entity*
-  [where-filter]
+  [id]
   (-> get-persist-entity-base*
-      (where where-filter)
+      (where {:id id})
       select))
 
 (defn- get-persist-entities*
@@ -18,7 +18,7 @@
 (defn- get-entities*
   [data]
   (cond
-    (number? data) (first (get-persist-entity* {:id data}))
+    (number? data) (first (get-persist-entity* data))
     (vector? data) (get-persist-entities* data)))
 
 (defn get-all-entities
