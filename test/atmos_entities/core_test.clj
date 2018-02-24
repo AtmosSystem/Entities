@@ -1,14 +1,12 @@
 (ns atmos-entities.core-test
   (:require [clojure.test :refer :all]
             [atmos-entities.core :refer :all]
-            [clojure.edn :refer [read-string]]))
+            [atmos-kernel.core :refer [read-resource-edn]]
+            [atmos-rdb-kernel.core :refer [defpersistence init-persistence]]))
 
-(def mock-db {:aws {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
-                    :db       "atmos-entities"
-                    :user     "developer"
-                    :password "12345678"}})
+(def configuration (read-resource-edn :config-dev))
 
-(-> mock-db :aws defpersistence init-persistence)
+(-> configuration :database defpersistence init-persistence)
 
 (deftest repository-testing
   (let [mock-entity {:type     "MOCK-USER"
