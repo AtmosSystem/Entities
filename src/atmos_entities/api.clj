@@ -34,42 +34,40 @@
 
 (defn- get-entities*
   ([data]
-   (ms-atmos-response
-     (cond
-       (nil? data) (get-all-entities)
-       (map? data) (get-entities (:ids data))
-       (string? data) (get-entity (Long. data)))))
+   (ms-atmos-cond-response
+     (nil? data) (get-all-entities)
+     (map? data) (get-entities (:ids data))
+     (string? data) (get-entity (Long. data))))
   ([]
    (get-entities* nil)))
 
 (defn- add-entities*
   [data]
-  (let [entities (keyword-map (:entities data))]
-    (ms-atmos-response
-      (cond
-        (map? entities) (str (add-entity entities))))))
+  (ms-atmos-let-cond-response
+    [entities (keyword-map (:entities data))]
+
+    (map? entities) (str (add-entity entities))))
 
 
 (defn- update-entities*
   [data]
-  (let [entities (keyword-map (:entities data))]
-    (ms-atmos-response
-      (cond
-        (map? entities) (str (update-entity entities))))))
+  (ms-atmos-let-cond-response
+    [entities (keyword-map (:entities data))]
+
+    (map? entities) (str (update-entity entities))))
 
 
 (defn- remove-entities*
   [data]
-  (ms-atmos-response
-    (cond
-      (map? data) (when-let [entity-ids (:ids data)]
-                    (doseq [entity-id entity-ids]
-                      (remove-contacts entity-id))
-                    (remove-entities entity-ids))
+  (ms-atmos-cond-response
+    (map? data) (when-let [entity-ids (:ids data)]
+                  (doseq [entity-id entity-ids]
+                    (remove-contacts entity-id))
+                  (remove-entities entity-ids))
 
-      (string? data) (str (when-let [entity-id (Long. data)]
-                            (remove-contacts entity-id)
-                            (remove-entity entity-id))))))
+    (string? data) (str (when-let [entity-id (Long. data)]
+                          (remove-contacts entity-id)
+                          (remove-entity entity-id)))))
 
 ;------------------------------
 ; END Entities functions
