@@ -60,10 +60,10 @@
 (defn- remove-entities*
   [data]
   (ms-atmos-cond-response
-    (map? data) (when-let [entity-ids (:ids data)]
-                  (doseq [entity-id entity-ids]
-                    (remove-contacts entity-id))
-                  (remove-entities entity-ids))
+    (map? data) (str (when-let [entity-ids (:ids data)]
+                       (doseq [entity-id entity-ids]
+                         (remove-contacts entity-id))
+                       (remove-entities entity-ids)))
 
     (string? data) (str (when-let [entity-id (Long. data)]
                           (remove-contacts entity-id)
