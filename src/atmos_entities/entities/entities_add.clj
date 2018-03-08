@@ -1,5 +1,9 @@
 (in-ns 'atmos-entities.core)
 
 
-(defadd-entity :entities [entity] #(insert entities
-                                           (values entity)))
+(defn- add-entities*
+  [entity]
+  (if-let [key-inserted (insert entities
+                                (values entity))]
+    (:generated_key key-inserted)
+    false))
