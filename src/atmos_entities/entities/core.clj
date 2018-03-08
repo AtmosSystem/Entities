@@ -1,11 +1,13 @@
 (in-ns 'atmos-entities.core)
 
+(declare contacts)
 
 (defentity ^:private entities
-           (table :entities)
-
            (pk :id)
-           (entity-fields :id :type :name :lastName))
+
+           (entity-fields :id :type :name :lastName)
+
+           (has-many contacts))
 
 ;------------------------------
 ; BEGIN Entity functions
@@ -30,13 +32,7 @@
   (remove-entities [ids] (remove-entities* ids)))
 
 (extend-protocol IEntityIdentityRepository
-  Integer
-  (get-entity [id] (get-entities* id))
-  (remove-entity [id] (remove-entities* id))
-  BigInteger
-  (get-entity [id] (get-entities* id))
-  (remove-entity [id] (remove-entities* id))
-  Long
+  Number
   (get-entity [id] (get-entities* id))
   (remove-entity [id] (remove-entities* id)))
 

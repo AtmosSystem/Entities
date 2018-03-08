@@ -5,9 +5,11 @@
                                        ms-atmos-method
                                        make-json-app
                                        ms-atmos-response
+                                       ms-atmos-cond-response
+                                       ms-atmos-let-cond-response
                                        ms-atmos-main-method-response
-                                       request-body
                                        keyword-map
+                                       request-body
                                        read-resource-edn]]
             [atmos-rdb-kernel.core :refer [defpersistence init-persistence]]
             [atmos-entities.core :refer :all]
@@ -26,6 +28,10 @@
 ; END VARS
 ;-------------------------------------------------------
 
+;------------------------------
+; BEGIN Entities functions
+;------------------------------
+
 (defn- get-entities*
   ([data]
    (ms-atmos-response
@@ -43,12 +49,6 @@
       (cond
         (map? entities) (str (add-entity entities))))))
 
-(defn- remove-entities*
-  [data]
-  (ms-atmos-response
-    (cond
-      (map? data) (remove-entities (:ids data))
-      (string? data) (str (remove-entity (Long. data))))))
 
 (defn- update-entities*
   [data]
@@ -57,6 +57,55 @@
       (cond
         (map? entities) (str (update-entity entities))))))
 
+
+(defn- remove-entities*
+  [data]
+  (ms-atmos-response
+    (cond
+      (map? data) (when-let [entity-ids (:ids data)]
+                    (doseq [entity-id entity-ids]
+                      (remove-contacts entity-id))
+                    (remove-entities entity-ids))
+
+      (string? data) (str (when-let [entity-id (Long. data)]
+                            (remove-contacts entity-id)
+                            (remove-entity entity-id))))))
+
+;------------------------------
+; END Entities functions
+;------------------------------
+
+;------------------------------
+; BEGIN Contacts functions
+;------------------------------
+
+(defn- get-contacts*
+  [data]
+  (ms-atmos-cond-response
+    (string? data) (get-contacts (Long. data))))
+
+
+(defn- add-contacts*
+  [data]
+  (ms-atmos-let-cond-response
+    [contacts (keyword-map (:contacts data))]
+
+    (vector? contacts) (str (doseq [contact contacts]
+                              (add-contact contact)))))
+
+
+
+(defn- update-contacts*
+  [data]
+  (ms-atmos-let-cond-response
+    [contacts (keyword-map (:contacts data))]
+
+    (vector? contacts) (str (doseq [contact contacts]
+                              (update-contact contact)))))
+
+;------------------------------
+; END Contacts functions
+;------------------------------
 (defroutes app-routes
            (ms-atmos-main-method-response :Entity)
 
@@ -89,6 +138,23 @@
              (ms-atmos-method :entities :id)
              [id]
              (remove-entities* id))
+
+
+           (GET
+             (ms-atmos-method :entities contacts :entity-id)
+             [entity-id]
+             (get-contacts* entity-id))
+
+           (POST
+             (ms-atmos-method :entities contacts)
+             request
+             (update-contacts* (request-body request)))
+
+
+           (PUT
+             (ms-atmos-method :entities contacts)
+             request
+             (add-contacts* (request-body request)))
 
            not-found-route)
 
