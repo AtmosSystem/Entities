@@ -86,20 +86,22 @@
 (defn- add-contacts*
   [data]
   (ms-atmos-let-cond-response
-    [contacts (keyword-map (:contacts data))]
+    [contacts (:contacts data)]
 
-    (vector? contacts) (str (doseq [contact contacts]
-                              (add-contact contact)))))
+    (vector? contacts) (str (do
+                              (doseq [contact contacts]
+                                (add-contact (keyword-map contact)))
+                              true))))
 
 
 
 (defn- update-contacts*
   [data]
   (ms-atmos-let-cond-response
-    [contacts (keyword-map (:contacts data))]
+    [contacts (:contacts data)]
 
     (vector? contacts) (str (doseq [contact contacts]
-                              (update-contact contact)))))
+                              (update-contact (keyword-map contact))))))
 
 ;------------------------------
 ; END Contacts functions
