@@ -100,8 +100,10 @@
   (ms-atmos-let-cond-response
     [contacts (:contacts data)]
 
-    (vector? contacts) (str (doseq [contact contacts]
-                              (update-contact (keyword-map contact))))))
+    (vector? contacts) (str (do
+                              (doseq [contact contacts]
+                                (update-contact (keyword-map contact)))
+                              true))))
 
 ;------------------------------
 ; END Contacts functions
