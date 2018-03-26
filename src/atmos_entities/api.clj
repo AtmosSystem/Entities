@@ -13,14 +13,16 @@
                                        read-resource-edn]]
             [atmos-rdb-kernel.core :refer [defpersistence init-persistence]]
             [atmos-entities.core :refer :all]
-            [clojure.string :refer [includes? split]]))
+            [clojure.string :refer [includes? split]]
+            [environ.core :refer [env]]))
 
 
 
 ;-------------------------------------------------------
 ; BEGIN VARS
 ;-------------------------------------------------------
-(def configuration (read-resource-edn :config-prod))
+(def resource-file (or (keyword (env :resource-file)) :config-prod))
+(def configuration (read-resource-edn resource-file))
 
 (-> configuration :database defpersistence init-persistence)
 

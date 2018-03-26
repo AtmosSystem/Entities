@@ -1,4 +1,4 @@
-{:database {:host     "transportation-dev-db.c4r6yc5ou9f3.us-east-1.rds.amazonaws.com"
+{:database {:host     "35.225.37.222"
             :db       "atmos-entities"
             :user     "developer"
-            :password "12345678"}}
+            :password "developer"}}
