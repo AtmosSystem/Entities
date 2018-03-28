@@ -21,12 +21,12 @@
 ;------------------------------
 
 
-(extend-type PersistentArrayMap
+(extend-type Map
   IEntityBasicRepository
   (add-entity [entity] (add-entities* entity))
   (update-entity [entity] (update-entity* entity)))
 
-(extend-type PersistentVector
+(extend-type ISeq
   IEntitySeqRepository
   (get-entities [ids] (get-entities* ids))
   (remove-entities [ids] (remove-entities* ids)))

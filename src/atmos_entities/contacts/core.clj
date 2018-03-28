@@ -21,7 +21,7 @@
 
 (def contacts "contacts")
 
-(extend-type PersistentArrayMap
+(extend-type Map
   IContactBasicRepository
   (add-contact [contact] (add-contacts* contact))
   (update-contact [contact] (update-contacts* contact)))
