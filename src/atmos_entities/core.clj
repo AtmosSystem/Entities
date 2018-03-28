@@ -7,7 +7,7 @@
                                            defget-all-entity
                                            defupdate-entity
                                            defremove-entity]])
-  (:import (clojure.lang ISeq)
+  (:import (clojure.lang IPersistentCollection)
            (java.util Map)))
 
 (defatmos-record-protocols :Entity :Repository)

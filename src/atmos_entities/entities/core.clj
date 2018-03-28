@@ -26,7 +26,7 @@
   (add-entity [entity] (add-entities* entity))
   (update-entity [entity] (update-entity* entity)))
 
-(extend-type ISeq
+(extend-type IPersistentCollection
   IEntitySeqRepository
   (get-entities [ids] (get-entities* ids))
   (remove-entities [ids] (remove-entities* ids)))
