@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/AtmosSystem/Entities.svg?style=svg)](https://circleci.com/gh/AtmosSystem/Entities)
+
 # Entities
 
 Atmos micro service for manage entities inside a system
