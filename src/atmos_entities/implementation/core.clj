@@ -50,23 +50,22 @@
 (load "entities/entities_get")
 (load "entities/entities_add")
 (load "entities/entities_update")
-(load "entities/entities_remove")
 
 
 (extend-type Map
   IEntityBasicProtocol
   (add-entity [entity] (add-entities* entity))
-  (update-entity [entity] (update-entity* entity)))
+  (update-entity [entity] (update-entities* entity)))
 
 (extend-type Number
   IEntityIdentityProtocol
   (get-entity [id] (get-entities* id))
-  (remove-entity [id] (remove-entities* id)))
+  (remove-entity [id]))
 
 (extend-type ISeq
   IEntitySeqProtocol
   (get-entities [ids] (get-entities* ids))
-  (remove-entities [ids] (remove-entities* ids)))
+  (remove-entities [ids]))
 ;------------------------------
 ; END Entities functions
 ;------------------------------

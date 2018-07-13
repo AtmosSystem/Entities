@@ -1,13 +1,19 @@
-(in-ns 'atmos-entities.core)
+(in-ns 'atmos-entities.implementation.core)
 
 
 (def ^:private get-persist-entity-base* (-> (select* entities)))
 
-(defn- get-persist-entity*
-  [id]
-  (-> get-persist-entity-base*
-      (where {:id id})
-      select))
+(def ^:private get-persist-entity-by #(-> get-persist-entity-base*
+                                          (where %)
+                                          select))
+
+(declare get-all-entities get-first-entities*)
+
+(defget-all-entity entities #(-> get-persist-entity-base*
+                                 select))
+
+(defget-identity-entity entities get-persist-entity-by [id])
+
 
 (defn- get-persist-entities*
   [ids]
@@ -18,10 +24,7 @@
 (defn- get-entities*
   [data]
   (cond
-    (number? data) (first (get-persist-entity* data))
+    (number? data) (first (get-first-entities* data))
     (vector? data) (get-persist-entities* data)))
 
-(defn get-all-entities
-  []
-  (-> get-persist-entity-base*
-      select))
+

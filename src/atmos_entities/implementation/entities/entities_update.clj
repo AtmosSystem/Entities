@@ -1,16 +1,6 @@
-(in-ns 'atmos-entities.core)
+(in-ns 'atmos-entities.implementation.core)
 
 
-(defn- update-persist-entity*
-  [entity]
-  (update entities
-          (set-fields entity)
-          (where {:id (:id entity)})))
+(declare update-entities*)
 
-(defn- update-entity*
-  [entity]
-  (if-let [exists (get-entity (:id entity))]
-    (do
-      (update-persist-entity* entity)
-      true)
-    false))
+(defupdate-entity entities :id)
