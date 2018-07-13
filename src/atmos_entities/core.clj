@@ -1,21 +1,15 @@
 (ns atmos-entities.core
-  (:require [atmos-kernel.core :refer [defatmos-record-protocols defatmos-seq-record-protocol]]
-            [korma.core :refer :all]
-            [atmos-rdb-kernel.core :refer [defadd-entity
-                                           defget-entity
-                                           defget-identity-entity
-                                           defget-all-entity
-                                           defupdate-entity
-                                           defremove-entity]])
-  (:import (clojure.lang IPersistentCollection)
-           (java.util Map)))
+  (:require [atmos-kernel.protocol :refer [defatmos-record-protocols
+                                           defatmos-seq-record-protocol]]))
 
-(defatmos-record-protocols :Entity :Repository)
-(defatmos-seq-record-protocol :Entity :entities :Repository)
+(declare IEntityBasicProtocol IEntityIdentityProtocol IEntitySeqProtocol
+         add-entity update-entity get-entity remove-entity get-entities remove-entities)
 
-(defatmos-record-protocols :Contact :Repository)
-(defatmos-seq-record-protocol :Contact :contacts :Repository)
+(declare IContactBasicProtocol IContactIdentityProtocol IContactSeqProtocol
+         add-contact update-contact get-contact remove-contact get-contacts remove-contacts)
 
+(defatmos-record-protocols :Entity)
+(defatmos-seq-record-protocol :Entity :entities)
 
-
-(load "implementation")
+(defatmos-record-protocols :Contact)
+(defatmos-seq-record-protocol :Contact :contacts)
