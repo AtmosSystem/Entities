@@ -1,3 +1,6 @@
-(in-ns 'atmos-entities.core)
+(in-ns 'atmos-entities.implementation.core)
 
-(defadd-entity :contacts [contact] #(insert contacts (values %)))
+(declare add-contacts*)
+
+(defadd-entity contacts)
+

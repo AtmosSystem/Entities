@@ -1,6 +1,5 @@
 (in-ns 'atmos-entities.implementation.core)
 
+(declare update-contacts*)
 
-(declare update-entities*)
-
-(defupdate-entity entities :id)
+(defupdate-entity contacts :id)

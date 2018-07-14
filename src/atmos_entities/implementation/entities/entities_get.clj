@@ -12,7 +12,7 @@
 (defget-all-entity entities #(-> get-persist-entity-base*
                                  select))
 
-(defget-identity-entity entities get-persist-entity-by [id])
+(defget-identity-entity entities get-persist-entity-by)
 
 
 (defn- get-persist-entities*

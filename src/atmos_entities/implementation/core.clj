@@ -6,6 +6,7 @@
             [korma.core :refer :all]
             [korma.db :refer [defdb]]
             [atmos-data-kernel.persistence.sql :refer [defget-all-entity
+                                                       defget-entity
                                                        defget-identity-entity
                                                        defadd-entity
                                                        defupdate-entity]])
@@ -59,13 +60,11 @@
 
 (extend-type Number
   IEntityIdentityProtocol
-  (get-entity [id] (get-entities* id))
-  (remove-entity [id]))
+  (get-entity [id] (get-entities* id)))
 
 (extend-type ISeq
   IEntitySeqProtocol
-  (get-entities [ids] (get-entities* ids))
-  (remove-entities [ids]))
+  (get-entities [ids] (get-entities* ids)))
 ;------------------------------
 ; END Entities functions
 ;------------------------------
@@ -88,10 +87,8 @@
 (extend-type Number
   IContactSeqProtocol
   (get-contacts [entity-id] (get-contacts* entity-id))
-  (remove-contacts [entity-id] (remove-contacts* entity-id))
   IContactIdentityProtocol
-  (get-contact [id] (get-contact* id))
-  (remove-contact [id] (remove-contact* id)))
+  (get-contact [id] (get-first-contacts* id)))
 ;------------------------------
 ; END Contacts functions
 ;------------------------------
