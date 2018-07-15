@@ -64,7 +64,7 @@
 
 (extend-type ISeq
   IEntitySeqProtocol
-  (get-entities [ids] (get-entities* ids)))
+  (get-entities [ids] (get-entities* (vec ids))))
 ;------------------------------
 ; END Entities functions
 ;------------------------------

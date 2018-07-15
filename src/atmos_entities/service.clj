@@ -11,7 +11,7 @@
   ([data]
    (cond
      (nil? data) (get-all-entities)
-     (map? data) (get-entities (:ids data))
+     (map? data) (get-entities (seq (:ids data)))
      (number? data) (get-entity data)))
   ([]
    (get-entities* nil)))
@@ -21,7 +21,7 @@
   (let
     [entities (:entities data)]
     (cond
-      (map? entities) (str (add-entity entities)))))
+      (map? entities) (add-entity entities))))
 
 
 (defn update-entities*
@@ -29,7 +29,7 @@
   (let
     [entities (:entities data)]
     (cond
-      (map? entities) (str (update-entity entities)))))
+      (map? entities) (update-entity entities))))
 
 
 (defn remove-entities*

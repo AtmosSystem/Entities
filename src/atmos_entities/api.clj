@@ -22,14 +22,14 @@
                                              method (-> body :method keyword)]
                                          (cond
                                            (= method :get) (get-entities* body)
-                                           (= method :delete) (remove-entities* body)
-                                           (= method :update) (update-entities* body))))
+                                           (= method :delete) (str (remove-entities* body))
+                                           (= method :update) (str (update-entities* body)))))
 
                 (atmos-PUT [entity] (add-entities* (request-body request)))
-                (atmos-DELETE [entity :id] (remove-entities* (Long. (str id))))
+                (atmos-DELETE [entity :id] (str (remove-entities* (Long. (str id)))))
 
                 (atmos-GET [entity contacts :entity-id] (get-contacts* (Long. (str entity-id))))
-                (atmos-POST [entity contacts] (update-contacts* (request-body request)))
+                (atmos-POST [entity contacts] (str (update-contacts* (request-body request))))
                 (atmos-PUT [entity contacts] (add-contacts* (request-body request))))
 
 (def app (json-web-app app-routes))
