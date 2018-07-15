@@ -1,14 +1,11 @@
+[![CircleCI](https://circleci.com/gh/AtmosSystem/Entities.svg?style=svg)](https://circleci.com/gh/AtmosSystem/Entities)
+
 # Entities
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+Atmos micro service for manage entities inside a system
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2018 Santiago de Pedro
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License either version 1.0 or any later version.
