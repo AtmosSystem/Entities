@@ -10,5 +10,5 @@
 
 (declare get-first-contacts* get-contacts*)
 
-(defget-identity-entity contacts get-persist-contacts-by-id)
-(defget-entity contacts get-persist-contacts-by-entity-id)
+(defget-identity-entity contacts get-persist-contacts-by-id [id])
+(defget-entity contacts get-persist-contacts-by-entity-id [entity-id])

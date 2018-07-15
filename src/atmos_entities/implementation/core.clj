@@ -76,7 +76,6 @@
 (load "contacts/contacts_get")
 (load "contacts/contacts_add")
 (load "contacts/contacts_update")
-(load "contacts/contacts_remove")
 
 
 (extend-type Map
