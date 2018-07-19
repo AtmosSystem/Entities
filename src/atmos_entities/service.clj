@@ -1,5 +1,6 @@
 (ns atmos-entities.service
-  (:require [atmos-entities.core :refer :all]
+  (:require [atmos-kernel.core :refer [keyword-map]]
+            [atmos-entities.core :refer :all]
             [atmos-entities.implementation.core :refer :all]))
 
 
@@ -77,7 +78,7 @@
     (cond
       (vector? contacts) (str (do
                                 (doseq [contact contacts]
-                                  (update-contact contact))
+                                  (update-contact (keyword-map contact)))
                                 true)))))
 
 ;------------------------------
