@@ -55,7 +55,7 @@
 (defn get-contacts*
   [data]
   (cond
-    (string? data) (get-contacts (Long. (str data)))))
+    (number? data) (get-contacts data)))
 
 
 (defn add-contacts*
