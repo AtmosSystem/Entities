@@ -5,8 +5,8 @@
                                             (where %)
                                             select))
 
-(def ^:private get-persist-contacts-by-id #(get-persist-contacts-by {:id (:id %)}))
-(def ^:private get-persist-contacts-by-entity-id #(get-persist-contacts-by {:entity_id (:entity_id %)}))
+(def ^:private get-persist-contacts-by-id #(get-persist-contacts-by {:id %}))
+(def ^:private get-persist-contacts-by-entity-id #(get-persist-contacts-by {:entity_id %}))
 
 (declare get-first-contacts* get-contacts*)
 
