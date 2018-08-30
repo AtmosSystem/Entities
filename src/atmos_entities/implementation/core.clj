@@ -1,6 +1,7 @@
 (ns atmos-entities.implementation.core
   (:require [atmos-entities.core :refer :all]
             [environ.core :refer [env]]
+            [atmos-kernel.security.ssl :refer [defssl]]
             [atmos-kernel.configuration :refer [read-edn]]
             [atmos-data-kernel.persistence.core :refer [defpersistence]]
             [korma.core :refer :all]
@@ -28,6 +29,7 @@
 ;-------------------------------------------------------
 
 ; Persistence initialization
+(-> configuration :ssl-data defssl)
 (->> configuration :database (defpersistence persistence-type) (defdb atmos-entities))
 
 
