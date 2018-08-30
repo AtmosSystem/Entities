@@ -13,3 +13,7 @@ pom.xml.asc
 /.idea/
 
 *.iml
+
+
+key-store
+trust-store
