@@ -3,7 +3,7 @@
             :user     #env DATABASE_USER
             :password #env DATABASE_PASSWORD
             :useSSL   #env DATABASE_USE_SSL}
- :ssl-data {:key-store   {:file-path #env KEYSTORE_FILE_PATH
-                          :password  #env KEYSTORE_PASSWORD}
-            :trust-store {:file-path #env TRUSTSTORE_FILE_PATH
-                          :password  #env TRUSTSTORE_PASSWORD}}}
+ :ssl-data {:key-store   {:file-path #or [#env KEYSTORE_FILE_PATH ""]
+                          :password  #or [#env KEYSTORE_PASSWORD ""]}
+            :trust-store {:file-path #or [#env TRUSTSTORE_FILE_PATH ""]
+                          :password  #or [#env TRUSTSTORE_PASSWORD ""]}}}
