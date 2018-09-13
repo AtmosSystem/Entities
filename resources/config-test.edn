@@ -1,9 +1,0 @@
-{:database {:host     "35.202.14.89"
-            :db       "atmos-entities"
-            :user     "developer"
-            :password "developer"
-            :useSSL   true}
- :ssl-data {:key-store   {:file-path ""
-                          :password  ""}
-            :trust-store {:file-path ""
-                          :password  ""}}}
