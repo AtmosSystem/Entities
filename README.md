@@ -2,6 +2,8 @@
 
 # Entities
 
+[![Clojars Project](https://img.shields.io/clojars/v/atmos-entities.svg)](https://clojars.org/atmos-entities)
+
 Atmos micro service for manage entities inside a system
 
 ## License
