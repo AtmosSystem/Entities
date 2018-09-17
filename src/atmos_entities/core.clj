@@ -13,3 +13,7 @@
 
 (defatmos-record-protocols :Contact)
 (defatmos-seq-record-protocol :Contact :contacts)
+
+
+(defmulti get-all (fn [entity] (keyword entity)))
+(defmulti update-entities (fn [type _] (keyword type)))
