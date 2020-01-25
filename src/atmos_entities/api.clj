@@ -1,8 +1,9 @@
 (ns atmos-entities.api
-  (:require [atmos-kernel.web.core :refer [json-web-app
-                                           request-body]]
+  (:require [atmos-kernel.web.ring :refer [def-json-web-api]]
+            [ring.middleware.defaults :refer [api-defaults]]
             [atmos-kernel.web.security.auth :refer [token-auth]]
-            [atmos-kernel.web.route :refer [defatmos-route
+            [atmos-kernel.web.route :refer [defatmos-routes
+                                            atmos-main-route
                                             atmos-GET
                                             atmos-POST
                                             atmos-PUT
@@ -14,26 +15,37 @@
 (def entity "entity")
 (def contacts "contacts")
 
-(defatmos-route app-routes :entity
-                (atmos-GET [entities] (get-all entities)
-                           :authentication-needed? true)
-                (atmos-GET [entity :id] (get-entity (Long. (str id)))
-                           :authentication-needed? true)
+(declare app app-routes request id)
 
-                (atmos-POST [entities] (let [body (request-body request)]
-                                         (update-entities (:method body) body))
-                            :authentication-needed? true)
+(defatmos-routes app-routes
+                 (atmos-main-route :entities)
 
-                (atmos-PUT [entity] (add-entity (request-body request))
-                           :authentication-needed? true)
-                (atmos-DELETE [entity :id] (remove-entity (Long. (str id)))
-                              :authentication-needed? true)
+                 (atmos-GET [entities entities] request
+                            (get-all entities))
 
-                (atmos-GET [entity contacts :entity-id] (get-contacts (Long. (str entity-id)))
-                           :authentication-needed? true)
-                (atmos-POST [entity contacts] (update-contact (request-body request))
-                            :authentication-needed? true)
-                (atmos-PUT [entity contacts] (add-contact (request-body request))
-                           :authentication-needed? true))
+                 (atmos-GET [entities entity :id]
+                            [id]
+                            (get-entity (Long. (str id))))
 
-(def app (json-web-app app-routes token-auth))
+                 (atmos-POST [entities entities] request
+                             (let [body (request :params)]
+                               (update-entities (body :method) body)))
+
+                 (atmos-PUT [entities entity] request
+                            (add-entity (request :params)))
+
+                 (atmos-DELETE [entities entity :id]
+                               [id]
+                               (remove-entity (Long. (str id))))
+
+                 (atmos-GET [entities entity contacts :id]
+                            [id]
+                            (get-contacts (Long. (str id))))
+
+                 (atmos-POST [entities entity contacts] request
+                             (update-contact (request :params)))
+
+                 (atmos-PUT [entities entity contacts] request
+                            (add-contact (request :params))))
+
+(def-json-web-api app app-routes api-defaults token-auth)
