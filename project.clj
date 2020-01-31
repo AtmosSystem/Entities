@@ -1,4 +1,4 @@
-(defproject atmos-entities "1.5"
+(defproject atmos-entities "1.8"
   :description "Atmos micro service for manage entities"
   :url "https://github.com/AtmosSystem/Entities"
   :license {:name "Eclipse Public License"
