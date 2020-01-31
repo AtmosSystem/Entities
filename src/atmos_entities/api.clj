@@ -1,5 +1,6 @@
 (ns atmos-entities.api
   (:require [atmos-kernel.web.ring :refer [def-json-web-api]]
+            [atmos-kernel.core :refer [keyword-map]]
             [ring.middleware.defaults :refer [api-defaults]]
             [atmos-kernel.web.security.auth :refer [token-auth]]
             [atmos-kernel.web.route :refer [defatmos-routes
@@ -28,11 +29,11 @@
                             (get-entity (Long. (str id))))
 
                  (atmos-POST [entities entities] request
-                             (let [body (request :params)]
+                             (let [body (keyword-map (request :params))]
                                (update-entities (body :method) body)))
 
                  (atmos-PUT [entities entity] request
-                            (add-entity (request :params)))
+                            (add-entity (keyword-map (request :params))))
 
                  (atmos-DELETE [entities entity :id]
                                [id]
@@ -43,9 +44,9 @@
                             (get-contacts (Long. (str id))))
 
                  (atmos-POST [entities entity contacts] request
-                             (update-contact (request :params)))
+                             (update-contact (keyword-map (request :params))))
 
                  (atmos-PUT [entities entity contacts] request
-                            (add-contact (request :params))))
+                            (add-contact (keyword-map (request :params)))))
 
 (def-json-web-api app app-routes api-defaults token-auth)
